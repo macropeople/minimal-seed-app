@@ -1,13 +1,13 @@
 let sasJs;
 function initSasJs() {
   sasJs = new SASjs.default({
-    serverUrl: "",
+    serverUrl: " ",
     port: null,
     pathSAS9: "/SASStoredProcess/do",
     pathSASViya: "/SASJobExecution",
     appLoc: "/Public/app",
     serverType: "SASVIYA",
-    debug: true
+    debug: false
   });
 }
 
@@ -42,12 +42,12 @@ function loadStartupData() {
       if (responseJson && responseJson.status === 449) {
         loadStartupData();
       } else {
-        if (responseJson && responseJson.areas && responseJson.areas.data) {
+        if (responseJson && responseJson.areas ) {
           const loadStartupDataButton = document.querySelector(
             "#load-startup-data"
           );
           loadStartupDataButton.style.display = "none";
-          createAreasDropdown(responseJson.areas.data);
+          createAreasDropdown(responseJson.areas);
         }
       }
     });
@@ -63,7 +63,7 @@ function loadData() {
     })
     .then(response => {
       const responseJson = JSON.parse(response);
-      if (responseJson && responseJson.springs && responseJson.springs.data) {
+      if (responseJson && responseJson.springs && responseJson.springs) {
         const existingTable = document.querySelector("#springs-table");
         if (existingTable) {
           document.body.removeChild(existingTable);
@@ -72,7 +72,7 @@ function loadData() {
         table.id = "springs-table";
         const tableHeader = createTableHeader();
         table.appendChild(tableHeader);
-        const tableRows = createRows(responseJson.springs.data);
+        const tableRows = createRows(responseJson.springs);
         const tableBody = document.createElement("tbody");
         table.appendChild(tableBody);
         tableRows.forEach(row => tableBody.appendChild(row));
