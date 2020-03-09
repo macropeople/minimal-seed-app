@@ -17,3 +17,5 @@ To use this app, you will need to:
 
 You can then select values from the dropdown and submit requests to your SAS server.
 The results will be visualised in a table on screen.
+
+Tip - you can also use node to spin up a local web server with CORS disabled.  To install, submit `npm install http-server -g`.  To execute, navigate to the location where the app is to be loaded and submit: `npx http-server --cors`
