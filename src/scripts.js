@@ -14,7 +14,8 @@ function initSasJs() {
 function login() {
   const username = document.querySelector("#username").value;
   const password = document.querySelector("#password").value;
-  sasJs.SASlogin(username, password).then(response => {
+  sasJs.logIn(username, password).then(response => {
+
     if (response.login === false) {
     } else {
       const loadStartupDataButton = document.createElement("button");
@@ -35,7 +36,7 @@ function loadStartupData() {
     sasJs.request("common/appInit", null, true).then(response => {
       let responseJson;
       try {
-        responseJson = JSON.parse(response);
+        responseJson = response;
       } catch (e) {
         console.error(e);
       }
@@ -62,7 +63,7 @@ function loadData() {
       areas: [{ area: selectedArea }]
     })
     .then(response => {
-      const responseJson = JSON.parse(response);
+      const responseJson = response;
       if (responseJson && responseJson.springs && responseJson.springs) {
         const existingTable = document.querySelector("#springs-table");
         if (existingTable) {
