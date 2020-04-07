@@ -2,16 +2,15 @@ let sasJs;
 function initSasJs() {
   sasJs = new SASjs.default({
     appLoc: "/Public/app",
-    serverType: "SAS9",
-    debug: false
+    serverType: "SASVIYA",
+    debug: false,
   });
 }
 
 function login() {
   const username = document.querySelector("#username").value;
   const password = document.querySelector("#password").value;
-  sasJs.logIn(username, password).then(response => {
-
+  sasJs.logIn(username, password).then((response) => {
     if (response.login === false) {
     } else {
       const loadStartupDataButton = document.createElement("button");
@@ -29,7 +28,7 @@ function login() {
 
 function loadStartupData() {
   if (sasJs) {
-    sasJs.request("common/appInit", null, true).then(response => {
+    sasJs.request("common/appInit", null, true).then((response) => {
       let responseJson;
       try {
         responseJson = response;
@@ -39,7 +38,7 @@ function loadStartupData() {
       if (responseJson && responseJson.status === 449) {
         loadStartupData();
       } else {
-        if (responseJson && responseJson.areas ) {
+        if (responseJson && responseJson.areas) {
           const loadStartupDataButton = document.querySelector(
             "#load-startup-data"
           );
@@ -56,9 +55,9 @@ function loadData() {
   const selectedArea = areasDropdown.options[areasDropdown.selectedIndex].value;
   sasJs
     .request("/common/getData", {
-      areas: [{ area: selectedArea }]
+      areas: [{ area: selectedArea }],
     })
-    .then(response => {
+    .then((response) => {
       const responseJson = response;
       if (responseJson && responseJson.springs && responseJson.springs) {
         const existingTable = document.querySelector("#springs-table");
@@ -72,7 +71,7 @@ function loadData() {
         const tableRows = createRows(responseJson.springs);
         const tableBody = document.createElement("tbody");
         table.appendChild(tableBody);
-        tableRows.forEach(row => tableBody.appendChild(row));
+        tableRows.forEach((row) => tableBody.appendChild(row));
         document.body.appendChild(table);
       }
     });
@@ -81,7 +80,7 @@ function loadData() {
 function createAreasDropdown(areas) {
   const areasDropDown = document.createElement("select");
   areasDropDown.id = "areas-dropdown";
-  areas.forEach(area => {
+  areas.forEach((area) => {
     const option = new Option();
     option.value = area["AREA"];
     option.text = area["AREA"];
@@ -105,9 +104,9 @@ function createTableHeader() {
     "AREA",
     "TYPE",
     "FARENHEIT",
-    "CELSIUS"
+    "CELSIUS",
   ];
-  columnNames.forEach(columnName => {
+  columnNames.forEach((columnName) => {
     const header = document.createElement("th");
     header.innerText = columnName;
     row.appendChild(header);
@@ -118,7 +117,7 @@ function createTableHeader() {
 
 function createRows(dataRows) {
   const rows = [];
-  dataRows.forEach(dataRow => {
+  dataRows.forEach((dataRow) => {
     const row = document.createElement("tr");
     for (field in dataRow) {
       const cell = document.createElement("td");
