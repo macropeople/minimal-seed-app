@@ -1,11 +1,4 @@
 let sasJs;
-function initSasJs() {
-  sasJs = new SASjs.default({
-    appLoc: "/Public/app",
-    serverType: "SASVIYA",
-    debug: false,
-  });
-}
 
 function login() {
   const username = document.querySelector("#username").value;

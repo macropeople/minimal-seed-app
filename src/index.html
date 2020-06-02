@@ -7,7 +7,19 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/sasjs@2.2.2/index.js"></script>
+    <script>
+      function initSasJs() {
+        sasJs = new SASjs.default({
+          appLoc: "/Public/app",
+          serverType: "SASVIYA",
+          debug: false,
+        });
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sasjs@2.5.5/index.js" 
+      integrity="sha256-OXgy1jhq/vrCIc1buN2kJIC0sY3DJAFF/AXExluqgj8=" 
+      crossorigin="anonymous">
+    </script>
     <script src="scripts.js"></script>
   </head>
   <body onload="initSasJs()">
