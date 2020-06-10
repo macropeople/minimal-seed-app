@@ -2,20 +2,44 @@
 
 This is the minimal seed app for [SASjs](https://github.com/macropeople/sasjs).
 
-It contains:
+It runs on both SAS 9 and Viya.  To deploy the services, execute the following:
 
-1. An HTML file `index.html` that loads the `SASjs` library from `jsdelivr` via a script tag.
-2. Associated styles in `style.css`.
-3. JavaScript code that instantiates and invokes methods from `SASjs`.
+```
+/* define the app location, eg in metadata or Viya folders service */
+%let apploc=/Public/myapp;
 
-To use this app, you will need to:
+/* include macros directly, else download & compile manually */
+filename mc url "https://raw.githubusercontent.com/macropeople/macrocore/master/mc_all.sas";
+%inc mc;
 
-1. Provide the SASjs configuration in `scripts.js`.
-2. Open the `index.html` file in your browser(preferably Chrome).
-3. Log in with your username and password.
-4. Click button to load initial data.
+/* create the two services */
+filename ft15f001 temp;
+parmcards4;
+    proc sql;
+    create table areas as select distinct area from sashelp.springs;
+    %webout(OPEN)
+    %webout(OBJ,areas)
+    %webout(CLOSE)
+;;;;
+%mp_createwebservice(path=&apploc/common, name=appInit)
 
-You can then select values from the dropdown and submit requests to your SAS server.
-The results will be visualised in a table on screen.
+parmcards4;
+    %webout(FETCH)
+    proc sql;
+    create table springs as select * from sashelp.springs
+      where area in (select area from areas);
+    %webout(OPEN)
+    %webout(OBJ,springs)
+    %webout(CLOSE)
+;;;;
+%mv_createwebservice(path=&apploc/common, name=getData)
+```
 
-Tip - you can also use node to spin up a local web server with CORS disabled.  To install, submit `npm install http-server -g`.  To execute, navigate to the location where the app is to be loaded and submit: `npx http-server --cors`
+Open the `index.html` and update the `appLoc` in the `initSasJs()` function to the same folder location used above.  Deploy to the SAS Web Server.
+
+You are done!
+
+
+## Local Development
+
+You can put the frontend [directly on the SAS Web Server](https://sasjs.io/frontend/deployment/), else you can also use node to spin up a local web server with CORS disabled.  To install, submit `npm install http-server -g`.  To execute, navigate to the location where the app is to be loaded and submit: `npx http-server --cors`
