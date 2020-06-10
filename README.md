@@ -35,7 +35,7 @@ parmcards4;
 %mp_createwebservice(path=&apploc/common, name=getData)
 ```
 
-Open the `index.html` and update the `appLoc` in the `initSasJs()` function to the same folder location used above.  Deploy to the SAS Web Server.
+Next, clone this repo, open the `index.html` file and update the `appLoc` in the `initSasJs()` function to the same folder location used above.  Deploy to the SAS Web Server.
 
 You are done!
 
